@@ -361,40 +361,6 @@ For each new public hostname, also add it to `terraform/cloudflare/terraform.tfv
 
 ---
 
-## Phase 7 — Recruiter polish
-
-In rough priority order:
-
-1. **Architecture diagram** at the top of `README.md`. Mermaid (already there) is fine; an Excalidraw export saved to `docs/diagrams/` is even better. One-line summary + diagram is what a hiring manager sees first.
-2. **Fill in `What I learned`** in `README.md` with 4–6 bullets of real insights ("CGNAT made port-forwarding impossible, so I learned outbound tunneling…"). Avoid generic "I used Kubernetes."
-3. **Make every ADR concrete.** Add specific numbers ("Longhorn replicates each PVC 3 ways across our 3 nodes"). Vague ADRs read worse than no ADRs.
-4. **Screenshot or short Loom of the ArgoCD UI** showing all 9 infra apps green. Embed in README.
-5. **Enable Renovate.** Install [Renovate's GitHub App](https://github.com/apps/renovate) on your repo. PRs start appearing within an hour.
-6. **Enable pre-commit hooks locally.** `pre-commit install`. Run them once with `pre-commit run --all-files` to clean up everything.
-7. **Turn on GitHub Actions environment protection** for the `production` environment (Settings → Environments → production → required reviewers = you). Now `terraform apply` only runs after a manual approval click.
-8. **Pin a "Limitations" section** at the bottom of the README and be brutally honest. Senior engineers signal trade-off awareness.
-
----
-
-## Troubleshooting reference
-
-A consolidated index of the gotchas that bit during this build.
-
-| Symptom | Cause | Fix |
-|---------|-------|-----|
-| `zsh: event not found: main=THE` | `!` in token triggered zsh history expansion inside double quotes | Use single quotes around the `Authorization:` header |
-| `401 permission denied` from Proxmox API | "Privilege Separation" was left checked when creating the token | Edit the token, uncheck Privilege Separation, save |
-| `bash: cd: tmp: No such file or directory` | Missing leading slash on `/tmp` | Use absolute path: `cd /tmp` |
-| `terraform plan` says `node_ips` is null | qemu-guest-agent not running in the VM | Rebuild template with `virt-customize --install qemu-guest-agent` *before* `qm template` |
-| `vmbr0: No such device` | Different bridge name on this Proxmox install | `ip link show \| grep vmbr` to find the real name, substitute |
-| `storage 'local-lvm' does not exist` | File-based install, no LVM | `pvesm status` to find the right name (often just `local`) |
-| Permission denied (publickey) during Ansible | SSH key in cloud-init doesn't match the one Ansible is using | Confirm `ssh_public_key_path` in tfvars and `ansible_ssh_private_key_file` in inventory match |
-| ArgoCD `root` Application stuck `Unknown` | `repoURL` still has `REPLACE_ME` | Find-and-replace `REPLACE_ME` across `kubernetes/argocd/` with your real repo URL |
-| `cloudflared` Pod CrashLoopBackOff with "401 Unauthorized" | Tunnel token wrong or stale | Re-run the `kubeseal` step after `terraform apply` in `terraform/cloudflare/` |
-| Jellyfin over Tailscale is slow from outside the LAN | Bound by your home upload bandwidth | Reduce video bitrate in Jellyfin, or use Tailscale's "exit node" feature in reverse |
-
----
-
 ## What "done" looks like for the whole project
 
 - `kubectl get nodes` → 3 Ready
@@ -405,5 +371,3 @@ A consolidated index of the gotchas that bit during this build.
 - `terraform destroy && terraform apply && make k3s-install && make argocd-bootstrap` rebuilds the entire cluster in under 20 minutes from a single command sequence
 - The repo's `main` branch builds green on every push (lint + terraform fmt + kubeconform)
 - Renovate has opened at least one update PR
-
-If all of those hold, you can put this on your CV with confidence.

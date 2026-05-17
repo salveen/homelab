@@ -11,7 +11,7 @@ spec:
   goTemplate: true
   generators:
     - git:
-        repoURL: https://github.com/REPLACE_ME/homelab.git
+        repoURL: https://github.com/salveen/homelab.git
         revision: main
         directories:
           - path: kubernetes/infrastructure/*
@@ -21,7 +21,7 @@ spec:
     spec:
       project: default
       source:
-        repoURL: https://github.com/REPLACE_ME/homelab.git
+        repoURL: https://github.com/salveen/homelab.git
         targetRevision: main
         path: "{{ .path.path }}"
       destination:

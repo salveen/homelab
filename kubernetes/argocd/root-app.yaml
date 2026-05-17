@@ -11,7 +11,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/REPLACE_ME/homelab.git
+    repoURL: https://github.com/salveen/homelab.git
     targetRevision: main
     path: kubernetes/argocd/apps
     directory:
