@@ -208,9 +208,7 @@ ssh ubuntu@<ip-of-cp-1>
 
 ```bash
 # Build the inventory from terraform output
-make inventory
-$EDITOR ansible/inventory.generated.yml   # quick read-over, then:
-cp ansible/inventory.generated.yml ansible/inventory.yml
+make inventory   # writes ansible/inventory.yml directly
 
 # OR: hand-edit ansible/inventory.example.yml with your IPs and save as inventory.yml.
 ```

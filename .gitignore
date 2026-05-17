@@ -58,9 +58,8 @@ terraform.rc
 # =============================================================================
 # Ansible
 # =============================================================================
-# Real inventory is generated/private; inventory.example.yml stays committed.
+# Real inventory is private; inventory.example.yml stays committed.
 ansible/inventory.yml
-ansible/inventory.generated.yml
 *.retry
 .ansible/
 fact_cache/

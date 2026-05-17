@@ -70,6 +70,14 @@
           overlay
         mode: "0644"
 
+    - name: Load kernel modules into running kernel
+      community.general.modprobe:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - br_netfilter
+        - overlay
+
     - name: Set kernel networking sysctls for k8s
       ansible.posix.sysctl:
         name: "{{ item.name }}"

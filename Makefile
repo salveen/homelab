@@ -44,9 +44,9 @@ cf-apply: ## terraform apply (cloudflare)
 
 inventory: ## Build ansible/inventory.yml from terraform output
 	@cd $(TF_DIR_PROXMOX) && terraform output -json node_ips \
-	  | jq -r 'to_entries | map({key: .key, value: (.value[0] // "UNKNOWN")}) | from_entries' \
-	  | yq -P > ../../ansible/inventory.generated.yml
-	@echo "Wrote ansible/inventory.generated.yml — copy into inventory.yml and group nodes."
+	  | jq '{all:{vars:{ansible_user:"ubuntu",ansible_ssh_private_key_file:"~/.ssh/id_ed25519",ansible_python_interpreter:"/usr/bin/python3"},children:{control_plane:{hosts:{"k3s-cp-1":{ansible_host:.["k3s-cp-1"][1][0]}}},workers:{hosts:{"k3s-wk-1":{ansible_host:.["k3s-wk-1"][1][0]},"k3s-wk-2":{ansible_host:.["k3s-wk-2"][1][0]}}},k3s_cluster:{children:{control_plane:null,workers:null}}}}}' \
+	  | yq -P > ../../ansible/inventory.yml
+	@echo "Wrote ansible/inventory.yml — ready for make bootstrap."
 
 bootstrap: ## Run ansible bootstrap playbook
 	cd ansible && ansible-playbook playbooks/bootstrap.yml
