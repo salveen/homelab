@@ -1,0 +1,14 @@
+# Copy to terraform.tfvars and fill in. terraform.tfvars is gitignored.
+
+pve_endpoint        = "https://pve.lan:8006/"
+pve_api_token       = "terraform@pve!main=REPLACE_WITH_UUID"
+pve_node            = "pve"
+template_vmid       = 9000
+ssh_public_key_path = "~/.ssh/id_ed25519.pub"
+
+# Optional overrides — uncomment to change the defaults from variables.tf
+# nodes = {
+    "k3s-cp-1" = { vmid = 210, cores = 2, memory = 4096, disk = 40, role = "control-plane", ip = "192.168.1.210/24" }
+    "k3s-wk-1" = { vmid = 211, cores = 4, memory = 8192, disk = 80, role = "worker",        ip = "192.168.1.211/24" }
+    "k3s-wk-2" = { vmid = 212, cores = 4, memory = 8192, disk = 80, role = "worker",        ip = "192.168.1.212/24" }
+# }

@@ -1,0 +1,18 @@
+---
+# Generate with:
+#   terraform output -raw tunnel_token \
+#     | kubeseal --raw --namespace cloudflared --name cloudflared-token --from-file=/dev/stdin
+# then paste the output into encryptedData.token below.
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: cloudflared-token
+  namespace: cloudflared
+spec:
+  encryptedData:
+    token: REPLACE_WITH_KUBESEAL_OUTPUT
+  template:
+    metadata:
+      name: cloudflared-token
+      namespace: cloudflared
+    type: Opaque

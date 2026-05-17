@@ -1,0 +1,39 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":dependencyDashboard",
+    ":semanticCommits",
+    ":timezone(Europe/Warsaw)"
+  ],
+  "kubernetes": {
+    "fileMatch": ["kubernetes/.+\\.ya?ml$"]
+  },
+  "helm-values": {
+    "fileMatch": ["kubernetes/.+values\\.ya?ml$"]
+  },
+  "argocd": {
+    "fileMatch": ["kubernetes/argocd/.+\\.ya?ml$"]
+  },
+  "terraform": {
+    "fileMatch": ["terraform/.+\\.tf$"]
+  },
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchManagers": ["helm-values", "argocd", "helmv3"],
+      "groupName": "helm minor + patch",
+      "automerge": false
+    },
+    {
+      "matchUpdateTypes": ["major"],
+      "addLabels": ["major-update"]
+    },
+    {
+      "matchManagers": ["terraform"],
+      "groupName": "terraform providers"
+    }
+  ],
+  "prHourlyLimit": 4,
+  "prConcurrentLimit": 10
+}

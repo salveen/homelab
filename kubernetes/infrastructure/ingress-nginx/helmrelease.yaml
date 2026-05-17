@@ -1,0 +1,36 @@
+---
+# Render via ArgoCD's native Helm support. Pin the chart version explicitly
+# so Renovate can open update PRs.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ingress-nginx
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://kubernetes.github.io/ingress-nginx
+    chart: ingress-nginx
+    targetRevision: 4.11.2
+    helm:
+      releaseName: ingress-nginx
+      values: |
+        controller:
+          replicaCount: 2
+          service:
+            type: LoadBalancer
+            # MetalLB will assign an IP from its pool.
+          metrics:
+            enabled: true
+          ingressClassResource:
+            default: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ingress-nginx
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true

@@ -1,0 +1,45 @@
+## Helm values for the initial ArgoCD install.
+## Once ArgoCD is up, it manages itself via kubernetes/argocd/.
+
+global:
+  domain: argocd.lan
+
+configs:
+  params:
+    # We expose ArgoCD via the tailscale-operator, not via a public ingress.
+    server.insecure: true
+
+server:
+  service:
+    type: ClusterIP
+
+  # Resource sizing for a 3-node homelab. Tune in real life.
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+repoServer:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 256Mi
+    limits:
+      memory: 1Gi
+
+controller:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 512Mi
+    limits:
+      memory: 2Gi
+
+applicationSet:
+  enabled: true
+
+notifications:
+  enabled: false   # add later (Slack/Discord) once the cluster is real

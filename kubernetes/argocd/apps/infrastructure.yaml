@@ -1,0 +1,36 @@
+---
+# One ApplicationSet that auto-discovers every folder under
+# kubernetes/infrastructure/ and creates an Application for it.
+# Add a new infra component = `mkdir kubernetes/infrastructure/foo/` + manifests.
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: infrastructure
+  namespace: argocd
+spec:
+  goTemplate: true
+  generators:
+    - git:
+        repoURL: https://github.com/REPLACE_ME/homelab.git
+        revision: main
+        directories:
+          - path: kubernetes/infrastructure/*
+  template:
+    metadata:
+      name: "infra-{{ .path.basename }}"
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/REPLACE_ME/homelab.git
+        targetRevision: main
+        path: "{{ .path.path }}"
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: "{{ .path.basename }}"
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true

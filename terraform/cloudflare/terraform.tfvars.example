@@ -1,0 +1,9 @@
+cf_api_token  = "REPLACE_WITH_TOKEN"
+cf_account_id = "REPLACE_WITH_ACCOUNT_ID"
+cf_zone_id    = "REPLACE_WITH_ZONE_ID"
+domain        = "example.com"
+
+public_hostnames = {
+  # subdomain = service inside the cluster (cloudflared resolves these via cluster DNS)
+  # "app-a" = "http://ingress-nginx-controller.ingress-nginx.svc.cluster.local:80"
+}

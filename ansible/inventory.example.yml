@@ -1,0 +1,27 @@
+---
+# Copy to inventory.yml (gitignored) and fill in the IPs from
+# `cd terraform/proxmox && terraform output node_ips`, OR run `make inventory`.
+
+all:
+  vars:
+    ansible_user: ubuntu
+    ansible_ssh_private_key_file: ~/.ssh/id_ed25519
+    ansible_python_interpreter: /usr/bin/python3
+
+  children:
+    control_plane:
+      hosts:
+        k3s-cp-1:
+          ansible_host: 192.168.1.110
+
+    workers:
+      hosts:
+        k3s-wk-1:
+          ansible_host: 192.168.1.111
+        k3s-wk-2:
+          ansible_host: 192.168.1.112
+
+    k3s_cluster:
+      children:
+        control_plane:
+        workers:

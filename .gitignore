@@ -1,0 +1,91 @@
+# =============================================================================
+# Secrets — NEVER commit these. (See docs/architecture.md "Secrets".)
+# =============================================================================
+# Terraform variable files hold the Proxmox API token + Cloudflare creds.
+# The committed templates end in .tfvars.example, so they are NOT matched here.
+*.tfvars
+*.tfvars.json
+*.auto.tfvars
+*.auto.tfvars.json
+
+# sops / age private keys
+*.agekey
+age.key
+keys.txt
+*.pem
+!**/charts/**/*.pem
+
+# Ansible vault password files
+.vault_pass
+.vault-password
+vault-password.txt
+
+# Kubeconfigs (Makefile pulls one to ~/.kube/homelab-config; guard local copies)
+kubeconfig
+*.kubeconfig
+kube-config*
+
+# Generic env / credential dumps
+.env
+.env.*
+!.env.example
+*.secret
+secrets.yaml
+secrets.yml
+
+# Unsealed secret inputs (committed sealed-secrets end in .example — kept)
+sealed-token.yaml
+!sealed-token.yaml.example
+
+# =============================================================================
+# Terraform
+# =============================================================================
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+*.tfplan
+tfplan
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+# NOTE: .terraform.lock.hcl is intentionally committed (provider pinning).
+
+# =============================================================================
+# Ansible
+# =============================================================================
+# Real inventory is generated/private; inventory.example.yml stays committed.
+ansible/inventory.yml
+ansible/inventory.generated.yml
+*.retry
+.ansible/
+fact_cache/
+
+# =============================================================================
+# OS / editor
+# =============================================================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+*.iml
+
+# =============================================================================
+# Misc
+# =============================================================================
+*.log
+*.bak
+*.tmp
+.cache/
