@@ -19,7 +19,7 @@ spec:
         defaultSettings:
           defaultDataPath: /var/lib/longhorn
           defaultReplicaCount: 2
-          createDefaultDiskLabeledNodes: true
+          createDefaultDiskLabeledNodes: false
         ingress:
           enabled: false
   destination:
